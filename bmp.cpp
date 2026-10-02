@@ -1,8 +1,11 @@
+// bmp.cpp: These are the functions that take in information such as color and size from a .bmp file
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include "bmp.h"
 
+// Default constructor
 Color::Color():r(0), g(0), b(0)
 {
 }
@@ -11,10 +14,12 @@ Color::Color(float r, float g, float b): r(r), g(g), b(b)
 {
 }
 
+// Destructor
 Color::~Color()
 {
 }
 
+// Default Image class constructor
 Image::Image(): m_width(0), m_height(0), m_colors(std::vector<Color>(0))
 {
 }
@@ -23,15 +28,19 @@ Image::Image(int width, int height): m_width(width), m_height(height), m_colors(
 {
 }
 
+
+// Destructor
 Image::~Image()
 {
 }
 
+// GetColor: gets the color of a pixel; returns it as a Color struct
 Color Image::GetColor(int x, int y) const
 {
     return m_colors[y * m_width + x];
 }
 
+// SetColor: sets the color of a pixel (not used in this assignment)
 void Image::SetColor(const Color& color, int x, int y)
 {
     m_colors[y*m_width + x].r = color.r;
@@ -39,6 +48,7 @@ void Image::SetColor(const Color& color, int x, int y)
     m_colors[y*m_width + x].b = color.b;
 }
 
+// Read: opens and reads the pixels of a .bmp file; stores the colors in a vector of Color structs in the Image class
 void Image::Read(const char* path)
 {
     std::ifstream f;
@@ -92,12 +102,40 @@ void Image::Read(const char* path)
     std::cout << "file read" << std::endl;
 }
 
+// imageHeight: returns the height of the image
 int Image::imageHeight(void)
 {
     return m_height;
 }
 
+// imageWidth: returns the width of an image
 int Image::imageWidth(void)
 {
     return m_width;
 }
+
+// checkBinary: checks whether the pixel is black or white; returns true if black, false if white
+bool Image::checkBinary(int x, int y)
+{
+    if (x < 0 || y < 0) return false;
+    Color blockColor = Image::GetColor(x, y);
+    float colorAvg = (blockColor.r + blockColor.g + blockColor.b)/3;
+    if (colorAvg >= 0.9) return true; // simple threshold as color should not be above 0.9 or else it would appear grey
+    else return false;
+}
+
+int Image::checkNeighborLabel(std::vector<std::unordered_set<int>> * labels)
+{
+
+}
+
+void Image::putLabel(int x, int y, std::vector<std::unordered_set<int>> * labels)
+{
+    if (Image::checkBinary(x, y) == true)
+    {
+        // TODO: check its neighbors sets for a label, then assign it a set.
+        // Don't need to check if it is a member of its own set because of raster scanning.
+    }
+}
+
+// TODO: check the neighbor's sets

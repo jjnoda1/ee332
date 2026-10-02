@@ -1,8 +1,13 @@
+// bmp.h: This is the header file for the functions in bmp.cpp
+
 #ifndef BMP_H
 #define BMP_H
 
+#include<unordered_set>
 #include <vector>
+#include <unordered_map>
 
+// Color: this is a struct to store the data of the color of each pixel in
 struct Color {
     float r, g, b;
 
@@ -11,6 +16,7 @@ struct Color {
     ~Color();
 };
 
+// Image: this is a class that stores all of the functions to take in data from an image
 class Image
 {
     public:
@@ -27,10 +33,16 @@ class Image
 
         int imageHeight(void);
 
+        
+
+        void putLabel(int x, int y, std::vector<std::unordered_set<int>> *);
+
     private:
         int m_width;
         int m_height;
         std::vector<Color> m_colors;
+        bool checkBinary(int x, int y);
+        int checkNeighborLabel(std::vector<std::unordered_set<int>> *);
 };
 
 #endif
