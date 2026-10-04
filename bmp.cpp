@@ -124,15 +124,36 @@ bool Image::checkBinary(int x, int y)
     else return false;
 }
 
-int Image::checkNeighborLabel(std::vector<std::unordered_set<int>> * labels)
+int Image::findPixel(int pixel)
 {
-
+    auto it = Image::m_setOf.find(pixel);
+    if (it != Image::m_setOf.end())
+    {
+        return it->second; // return the set that the pixel is a part of
+    }
+    else return -1;
 }
 
-void Image::putLabel(int x, int y, std::vector<std::unordered_set<int>> * labels)
+// checkNeighborLabel
+int Image::checkLabel(int x, int y)
 {
-    if (Image::checkBinary(x, y) == true)
+    if (x , 0 || y < 0 || x >= m_width || y >=m_height) return -1;
+    if (checkBinary(x, y) == false) return -1;
+    return findPixel(y * m_width + x);
+}
+
+void Image::putLabel(int x, int y)
+{
+    if (Image::checkBinary(x, y) == false) return;
+    else
     {
+        int index_left_n = Image::checkLabel(x-1, y);
+        int index_up_n = Image::checkLabel(x, y+1);
+        if (index_left_n == -1 && index_up_n == 1)
+        {
+            
+        }
+
         // TODO: check its neighbors sets for a label, then assign it a set.
         // Don't need to check if it is a member of its own set because of raster scanning.
     }

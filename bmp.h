@@ -35,14 +35,17 @@ class Image
 
         
 
-        void putLabel(int x, int y, std::vector<std::unordered_set<int>> *);
+        void putLabel(int x, int y);
 
     private:
         int m_width;
         int m_height;
-        std::vector<Color> m_colors;
+        std::vector<Color> m_colors;   
         bool checkBinary(int x, int y);
-        int checkNeighborLabel(std::vector<std::unordered_set<int>> *);
+        int checkLabel(int x, int y);
+        int Image::findPixel(int pixel);
+        std::vector<std::unordered_set<int>> labels;
+        std::unordered_map<int, int> m_setOf;
 };
 
 #endif
